@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 import re
 
 dt = datetime.now()
-seed(dt.second + dt.minute + dt.hour)
+seed(dt.second + dt.minute+dt.hour)
 
 prefix = ","
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix))
@@ -32,8 +32,7 @@ async def test(ctx):
 
 
 @bot.command()
-async def channel(ctx):
-    channel = TextChannel
+async def channel(ctx, channel: TextChannel):
     await channel.edit(name="channel name update 2")
 
 
@@ -45,11 +44,14 @@ async def random(ctx, arg1="", *args):
             await ctx.send(str(num))
         else:
             # need to add an exception just in case arg1 is not recognized
-            html = urlopen("https://en.wikipedia.org/wiki/"+arg1)
-            bs = BeautifulSoup(html, "html.parser")
-            images = bs.find_all("img", {"src": re.compile(".jpg")})
-            ind = randint(0, len(images)-1)
-            await ctx.send("https:" + images[ind]['src'])
+            try:
+                html = urlopen("https://en.wikipedia.org/wiki/"+arg1)
+                bs = BeautifulSoup(html, "html.parser")
+                images = bs.find_all("img", {"src": re.compile(".jpg")})
+                ind = randint(0, len(images)-1)
+                await ctx.send("https:" + images[ind]['src'])
+            except:
+                await ctx.send("{} is not accepted by Wikipedia!".format(arg1))
 
     else:
         await ctx.send("Command not recognized")
@@ -104,4 +106,4 @@ async def cat(ctx):
     await ctx.send("https://genrandom.com/cats/")
 
 
-bot.run("STOP LEAKING TOKEN YOU BOT")
+bot.run("token")
