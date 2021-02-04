@@ -6,7 +6,7 @@
 ```
 ban (reason), mute (time), remove role, add role
 ```
-* add random image generators for other animals? **priority** in ducks
+* change images to pull from Google Images instead of Wikipedia
 * figure out everything to do with reactions and bots
 * **cloud hosting**
 * biblebot html :(
