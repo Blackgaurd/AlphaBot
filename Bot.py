@@ -1,3 +1,4 @@
+# imports
 import discord
 from discord.ext import commands
 from discord import TextChannel
@@ -9,19 +10,36 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 
+# initiations
 dt = datetime.now()
 seed(dt.second + dt.minute+dt.hour)
 
 prefix = ","
-bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix))
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=intents)
+client = discord.Client()
 all_servers = bot.get_all_members()
 
 
+# events
 @bot.event
 async def on_ready():
     print("Tester Bot: Ready")
+    
+    
+@bot.event
+async def on_member_join(member):
+    await member.send("Hello, {}! Welcome to the server!".format(member.mention))
+    await bot.get_channel(806613504109838346).send("Say hi to {}!".format(member.mention))
+    # currently sending to dev server jl channel
 
 
+@bot.event
+async def on_member_remove(member):
+    await bot.get_channel(806613504109838346).send("{} left, may we live in grief...".format(member.mention))
+
+
+# commands using bot
 @bot.command()
 async def test(ctx):
     await ctx.send("```test```")
@@ -51,7 +69,7 @@ async def random(ctx, arg1="", *args):
                 ind = randint(0, len(images)-1)
                 await ctx.send("https:" + images[ind]['src'])
             except:
-                await ctx.send("'{}' is not accepted by Wikipedia!".format(arg1))
+                await ctx.send("{} is not accepted by Wikipedia!".format(arg1))
 
     else:
         await ctx.send("Command not recognized")
@@ -101,9 +119,7 @@ async def greeting(ctx):
     await ctx.send(word)
 
 
-@bot.command()
-async def cat(ctx):
-    await ctx.send("https://genrandom.com/cats/")
+# commands using client
 
 
-bot.run("token")
+bot.run("ODA2NjM0ODE5NDI0ODc4NjEz.YBsTNw.YCjMnyGg1yUJcoyTvFjfHjCBZ6Q")
