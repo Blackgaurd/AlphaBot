@@ -16,7 +16,7 @@ seed(dt.second + dt.minute+dt.hour)
 
 prefix = ","
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=intents, help_command=None)
 client = discord.Client()
 all_servers = bot.get_all_members()
 
@@ -41,6 +41,14 @@ async def on_member_remove(member):
 
 # commands using bot
 @bot.command()
+async def help(ctx):
+    color = discord.Color.from_rgb(255, 153, 153)
+    embed_block = discord.Embed(title="Alpha Bot", description="Some of alpha-bots less useless commands", color=color)
+    embed_block.add_field(name=",help", value="opens the help page", inline=False)
+    await ctx.channel.send(embed=embed_block)
+
+
+@bot.command()
 async def test(ctx):
     await ctx.send("```test```")
     await ctx.send("smile! :smile:")
@@ -61,7 +69,6 @@ async def random(ctx, arg1="", *args):
             num = randint(int(args[0]), int(args[1])) if args else randint(-1000, 1000)
             await ctx.send(str(num))
         else:
-            # need to add an exception just in case arg1 is not recognized
             try:
                 html = urlopen("https://en.wikipedia.org/wiki/"+arg1)
                 bs = BeautifulSoup(html, "html.parser")
@@ -69,7 +76,7 @@ async def random(ctx, arg1="", *args):
                 ind = randint(0, len(images)-1)
                 await ctx.send("https:" + images[ind]['src'])
             except:
-                await ctx.send("{} is not accepted by Wikipedia!".format(arg1))
+                await ctx.send("'{}' is not accepted by Wikipedia!".format(arg1))
 
     else:
         await ctx.send("Command not recognized")
@@ -121,7 +128,5 @@ async def greeting(ctx):
 
 # commands using client
 
-
-# run bot
 with open("BotToken.txt", "r") as token:
     bot.run(token.read().strip())
