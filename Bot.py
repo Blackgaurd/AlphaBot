@@ -44,7 +44,7 @@ async def on_member_remove(member):
 async def help(ctx):
     color = discord.Color.from_rgb(255, 153, 153)
     embed_block = discord.Embed(title="Alpha Bot", description="Some of alpha-bots less useless commands", color=color)
-    embed_block.add_field(name="!help", value="opens the help page", inline=False)
+    embed_block.add_field(name=",help", value="opens the help page", inline=False)
     await ctx.channel.send(embed=embed_block)
 
 
