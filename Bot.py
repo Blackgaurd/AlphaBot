@@ -12,7 +12,7 @@ import re
 
 # initiations
 dt = datetime.now()
-seed(dt.second + dt.minute+dt.hour)
+seed(dt.second + dt.minute + dt.hour)
 
 prefix = ","
 intents = discord.Intents.all()
@@ -25,8 +25,8 @@ all_servers = bot.get_all_members()
 @bot.event
 async def on_ready():
     print("Tester Bot: Ready")
-    
-    
+
+
 @bot.event
 async def on_member_join(member):
     await member.send("Hello, {}! Welcome to the server!".format(member.mention))
@@ -70,10 +70,10 @@ async def random(ctx, arg1="", *args):
             await ctx.send(str(num))
         else:
             try:
-                html = urlopen("https://en.wikipedia.org/wiki/"+arg1)
+                html = urlopen("https://en.wikipedia.org/wiki/" + arg1)
                 bs = BeautifulSoup(html, "html.parser")
                 images = bs.find_all("img", {"src": re.compile(".jpg")})
-                ind = randint(0, len(images)-1)
+                ind = randint(0, len(images) - 1)
                 await ctx.send("https:" + images[ind]['src'])
             except:
                 await ctx.send("'{}' is not accepted by Wikipedia!".format(arg1))
@@ -125,14 +125,19 @@ async def greeting(ctx):
     word = randchoice(("Hello!", "How's your day?", "Hi!", "How are you?", "Greetings!", "Hi, I have a cat!"))
     await ctx.send(word)
 
-#need to add check for if member
+
+# need to add check for if member
 @bot.command()
-async def boop(ctx, victim, times=3):
-    msg = "***BOOP***" + victim*times
+async def boop(ctx, victims: commands.Greedy[discord.Member], times=3):
+    msg = ""
+    for victim in victims:
+        msg+=victim.mention + " "
+    msg = "***BOOP*** " + msg * times
     if len(msg) > 2000:
         await ctx.send("Message over 2000 characters")
-        return
-    await ctx.send(msg)
+    else:
+        await ctx.send(msg)
+
 
 # commands using client
 
