@@ -125,6 +125,14 @@ async def greeting(ctx):
     word = randchoice(("Hello!", "How's your day?", "Hi!", "How are you?", "Greetings!", "Hi, I have a cat!"))
     await ctx.send(word)
 
+#need to add check for if member
+@bot.command()
+async def boop(ctx, victim, times=3):
+    msg = "***BOOP***" + victim*times
+    if len(msg) > 2000:
+        await ctx.send("Message over 2000 characters")
+        return
+    await ctx.send(msg)
 
 # commands using client
 
