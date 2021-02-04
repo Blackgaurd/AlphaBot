@@ -121,6 +121,7 @@ async def greeting(ctx):
 
 # commands using client
 
-# open token from file, so we stop leaking it onto GitHub
-with open("get_token", "r") as f:
-    bot.run(f.read().strip())
+
+# run bot
+with open("BotToken.txt", "r") as token:
+    bot.run(token.read().strip())
