@@ -119,6 +119,14 @@ async def greeting(ctx):
     await ctx.send(word)
 
 
+@bot.command()
+async def boop(ctx, victim, times=3):
+    msg = "***BOOP***" + victim*times
+    if len(msg) > 2000:
+        await ctx.send("Message over 2000 characters")
+        return
+    await ctx.send(msg)
+
 # commands using client
 
 
