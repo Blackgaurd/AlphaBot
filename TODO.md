@@ -10,3 +10,4 @@ ban (reason), mute (time), remove role, add role
 * figure out everything to do with reactions and bots
 * **cloud hosting**
 * biblebot html :(
+ 
