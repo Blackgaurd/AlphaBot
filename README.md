@@ -10,6 +10,9 @@ Current *useful* commands:
 * ,membercount: returns server name and number of members
 * ,greeting: says hi back ... how's it feel talking to a script?
 
+## Security stuff
+Please do not share this page or any files with anyone you do no 100% trust. Make sure their intentions are good and is willing to help the bot progress. 
+
 ## Contributions
 Shout-out to everyone that has helped me with this project!!
 
