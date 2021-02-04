@@ -51,7 +51,7 @@ async def random(ctx, arg1="", *args):
                 ind = randint(0, len(images)-1)
                 await ctx.send("https:" + images[ind]['src'])
             except:
-                await ctx.send("{} is not accepted by Wikipedia!".format(arg1))
+                await ctx.send("'{}' is not accepted by Wikipedia!".format(arg1))
 
     else:
         await ctx.send("Command not recognized")
