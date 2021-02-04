@@ -1,3 +1,5 @@
+# code is really messy rn because i whippedd this up in a day
+
 import discord
 from discord.ext import commands
 from discord import TextChannel
@@ -17,15 +19,6 @@ all_servers = bot.get_all_members()
 @bot.event
 async def on_ready():
     print("Tester Bot: Ready")
-
-
-"""
-@bot.event
-async def on_member_join(member):
-    for channel in member.server.channels:
-        if channel.name == 'general':
-            await bot.send_message(channel, 'Message to send when member joins')
-"""
 
 
 @bot.command()
@@ -111,4 +104,4 @@ async def cat(ctx, arg=""):
     await ctx.send("https://cataas.com/cat"+arg)
 
 
-bot.run("ODA2NjM0ODE5NDI0ODc4NjEz.YBsTNw.aA3w9P6mN-35dK3AEIxFUTXpteY")
+bot.run("discord bot private token (contact @abcdef#9403 on discord)")
