@@ -1,0 +1,57 @@
+{
+    "events": [
+        {
+            "name": "on_ready",
+            "description": "A series of actions that are executed upon bot initiation.",
+            "actions": [
+                "Prints 'ready' message to the console."
+            ]
+        },
+        {
+            "name": "on_member_join",
+            "description": "A series of actions that are executed upon a new member joining a server. Instructions are executed in the server that the member has joined. ",
+            "actions": [
+                "Sends a customizable welcome message to the new member's private messages.",
+                "Posts a customizable welcome message to the channel of choice in the server."
+            ]
+        },
+        {
+            "name": "on_member_remove",
+            "description": "A series of actions that are executed upon a member leaving a server.",
+            "actions": [
+                "Sends a customizable farewell message to the new member's private messages.",
+                "Posts a customizable welcome message to the channel of choice in the server."
+            ]
+        }
+    ],
+    "commands": {
+        "help": {
+            "name": "help",
+            "description": "Opens up the help page. Type any command after help to see it in more detail.",
+            "arguments": {}
+        },
+        "random": {
+            "name": "random",
+            "description": "A random item generator for all your random needs.",
+            "arguments": {
+                "number": "Generates a random number between in the inclusive range of the next two inputs. Defaults to [-1000, 1000]. ",
+                "word": "Searches Wikipedia with specified query, returns random image on wiki page."
+            }
+        },
+        "say": {
+            "name": "say",
+            "description": "Repeats things, that's all",
+            "arguments": {}
+        },
+        "pingmepls": {
+            "name": "pingmepls",
+            "description": "Pings you, pls.",
+            "arguments": {}
+        },
+        "membercount": {
+            "name": "membercount",
+            "description": "",
+            "arguments": {}
+        }
+    }
+}
