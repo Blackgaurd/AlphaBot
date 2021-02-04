@@ -1,5 +1,3 @@
-# code is really messy rn because i whippedd this up in a day
-
 import discord
 from discord.ext import commands
 from discord import TextChannel
@@ -7,9 +5,12 @@ from random import seed
 from random import randint
 from random import choice as randchoice
 from datetime import datetime
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import re
 
 dt = datetime.now()
-seed(dt.second + dt.minute)
+seed(dt.second + dt.minute + dt.hour)
 
 prefix = ","
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix))
@@ -42,11 +43,14 @@ async def random(ctx, arg1="", *args):
         if arg1 in ("number", "num", "integer", "int"):
             num = randint(int(args[0]), int(args[1])) if args else randint(-1000, 1000)
             await ctx.send(str(num))
-        elif arg1 in ("person", "name", "member"):
-            # print(get_all_members())
-            pass
         else:
-            await ctx.send("Command not recognized")
+            # need to add an exception just in case arg1 is not recognized
+            html = urlopen("https://en.wikipedia.org/wiki/"+arg1)
+            bs = BeautifulSoup(html, "html.parser")
+            images = bs.find_all("img", {"src": re.compile(".jpg")})
+            ind = randint(0, len(images)-1)
+            await ctx.send("https:" + images[ind]['src'])
+
     else:
         await ctx.send("Command not recognized")
 
@@ -96,12 +100,8 @@ async def greeting(ctx):
 
 
 @bot.command()
-async def cat(ctx, arg=""):
-    if arg.lower() not in ("cute", "gif"):
-        arg = ""
-    else:
-        arg = "/"+arg
-    await ctx.send("https://cataas.com/cat"+arg)
+async def cat(ctx):
+    await ctx.send("https://genrandom.com/cats/")
 
 
-bot.run("discord bot private token (contact @abcdef#9403 on discord)")
+bot.run("ODA2NjM0ODE5NDI0ODc4NjEz.YBsTNw.tDPhnys6YnMND3xZHIwnPRwmggU")
