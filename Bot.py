@@ -104,4 +104,4 @@ async def cat(ctx):
     await ctx.send("https://genrandom.com/cats/")
 
 
-bot.run("ODA2NjM0ODE5NDI0ODc4NjEz.YBsTNw.tDPhnys6YnMND3xZHIwnPRwmggU")
+bot.run("STOP LEAKING TOKEN YOU BOT")
