@@ -1,6 +1,7 @@
 # Things that need to be done
 
 * fix the random cat photo generator through a better html parser
+* make a better *help* command
 * automatic server member count updater
 * administrative commands:
 ```
