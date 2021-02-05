@@ -1,13 +1,13 @@
 {
-    "events": [
-        {
+    "events": {
+        "on_ready": {
             "name": "on_ready",
             "description": "A series of actions that are executed upon bot initiation.",
             "actions": [
                 "Prints 'ready' message to the console."
             ]
         },
-        {
+        "on_member_join": {
             "name": "on_member_join",
             "description": "A series of actions that are executed upon a new member joining a server. Instructions are executed in the server that the member has joined. ",
             "actions": [
@@ -15,7 +15,7 @@
                 "Posts a customizable welcome message to the channel of choice in the server."
             ]
         },
-        {
+        "on_member_remove": {
             "name": "on_member_remove",
             "description": "A series of actions that are executed upon a member leaving a server.",
             "actions": [
@@ -23,7 +23,7 @@
                 "Posts a customizable welcome message to the channel of choice in the server."
             ]
         }
-    ],
+    },
     "commands": {
         "help": {
             "name": "help",
@@ -40,8 +40,15 @@
         },
         "say": {
             "name": "say",
-            "description": "Repeats things, that's all",
+            "description": "Repeats things, that's all.",
             "arguments": {}
+        },
+        "add": {
+            "name": "add",
+            "description": "A *powerful* math engine ... made for addition only.",
+            "arguments": {
+                "numbers": "a list of numbers separated by spaces, can be decimals or whole numbers, positive or negative"
+            }
         },
         "pingmepls": {
             "name": "pingmepls",
@@ -50,8 +57,15 @@
         },
         "membercount": {
             "name": "membercount",
-            "description": "",
+            "description": "How many members are in this server?",
             "arguments": {}
+        },
+        "boop": {
+            "name": "boop",
+            "description": "***BOOP*** someone you particularly despise.",
+            "arguments": {
+                "times": "number of times to ***BOOP***"
+            }
         }
     }
 }
