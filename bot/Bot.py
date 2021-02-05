@@ -54,20 +54,6 @@ async def help(ctx, area="commands"):
 
 
 @bot.command()
-async def test(ctx):
-    await ctx.send("```test```")
-    await ctx.send("smile! :smile:")
-    await ctx.send("*italic*")
-    await ctx.send("**bold**")
-    await ctx.send("***bold italic***")
-
-
-@bot.command()
-async def channel(ctx, channel: TextChannel):
-    await channel.edit(name="channel name update 2")
-
-
-@bot.command()
 async def random(ctx, arg1="", *args):
     if arg1:
         if arg1 in ("number", "num", "integer", "int"):
@@ -102,12 +88,6 @@ async def add(ctx, *args):
 
 
 @bot.command()
-async def slap(ctx, members: commands.Greedy[discord.Member], *, reason='no reason'):
-    slapped = ", ".join(x.mention for x in members)
-    await ctx.send('{} just got slapped for {}'.format(slapped, reason))
-
-
-@bot.command()
 async def pingmepls(ctx):
     await ctx.send("nickname: {}".format(ctx.author.nick))
     await ctx.send("discord username: {}".format(ctx.author.name))
@@ -118,12 +98,6 @@ async def pingmepls(ctx):
 @bot.command()
 async def membercount(ctx):
     await ctx.send("**{}** currently has **{}** members!".format(ctx.message.guild.name, ctx.message.guild.member_count))
-
-
-@bot.command()
-async def greeting(ctx):
-    word = randchoice(("Hello!", "How's your day?", "Hi!", "How are you?", "Greetings!", "Hi, I have a cat!"))
-    await ctx.send(word)
 
 
 @bot.command()
@@ -147,6 +121,34 @@ async def boop(ctx, victims: commands.Greedy[discord.Member], *, times="3"):
         await ctx.send("Message over 2000 characters")
     else:
         await ctx.send(msg)
+
+
+@bot.command()
+async def bible(ctx, *args):
+    if args:
+        query = "".join(args).replace(" ", "").split(":")
+        chapter = ""
+        while query[0] and query[0][-1].isdigit():
+            chapter = query[0][-1]+chapter
+            query[0] = query[0][:-1]
+
+        url = f"https://www.biblegateway.com/passage/?search={query[0]}+{chapter}%3A+{query[1]}&version=NIV"
+        html = urlopen(url)
+        soup = BeautifulSoup(html, "html.parser")
+        title = soup.find("meta", property="og:title")
+        description = soup.find("meta", property="og:description")
+
+        if not title or not description:
+            await ctx.send("That verse does not exist :cry:")
+            return
+
+        embed_block = discord.Embed(title=" ", description=" ", color=color)
+        embed_block.add_field(name=title["content"][23:-28] + " :book:", value=description["content"], inline=False)
+        embed_block.set_footer(text=url)
+        await ctx.channel.send(embed=embed_block)
+
+    else:
+        await ctx.send("Please enter a query: `<book>` `<chapter>`: `<verse start>` - `<verse end>`")
 
 
 # commands using client
