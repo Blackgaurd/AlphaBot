@@ -2,6 +2,8 @@
 
 ## Priority
 * complete biblebooks.json
+(https://www.aresearchguide.com/bibleabb.html, not all books are included because not all books on this website are in the NIV version)
+
 
 ## Others
 * fix the random cat photo generator through a better html parser (later)
