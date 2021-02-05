@@ -1,14 +1,14 @@
 # imports
-import discord
-from discord.ext import commands
-from discord import TextChannel
-from random import seed
-from random import randint
-from random import choice as randchoice
-from datetime import datetime
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
 import re
+from datetime import datetime
+from random import seed, randint, choice as randchoice
+from urllib.request import urlopen
+import json
+
+import discord
+from bs4 import BeautifulSoup
+from discord import TextChannel
+from discord.ext import commands
 
 # initiations
 dt = datetime.now()
@@ -41,25 +41,16 @@ async def on_member_remove(member):
 
 # commands using bot
 @bot.command()
-async def help(ctx):
+async def help(ctx, area="commands"):
     color = discord.Color.from_rgb(255, 153, 153)
     embed_block = discord.Embed(title="Alpha Bot", description="Some of alpha-bots less useless commands", color=color)
-    embed_block.add_field(name=",help", value="opens the help page", inline=False)
+    if area not in ("commands", "events"):
+        area = "commands"
+    with open("EventsAndCommands.json", "r") as f:
+        commands_events = json.load(f)
+    for command in commands_events[area]:
+        embed_block.add_field(name="`" + str(command["name"]) + "`", value=str(command["description"]), inline=False)
     await ctx.channel.send(embed=embed_block)
-
-
-@bot.command()
-async def test(ctx):
-    await ctx.send("```test```")
-    await ctx.send("smile! :smile:")
-    await ctx.send("*italic*")
-    await ctx.send("**bold**")
-    await ctx.send("***bold italic***")
-
-
-@bot.command()
-async def channel(ctx, channel: TextChannel):
-    await channel.edit(name="channel name update 2")
 
 
 @bot.command()
@@ -97,12 +88,6 @@ async def add(ctx, *args):
 
 
 @bot.command()
-async def slap(ctx, members: commands.Greedy[discord.Member], *, reason='no reason'):
-    slapped = ", ".join(x.name for x in members)
-    await ctx.send('{} just got slapped for {}'.format(slapped, reason))
-
-
-@bot.command()
 async def pingmepls(ctx):
     await ctx.send("nickname: {}".format(ctx.author.nick))
     await ctx.send("discord username: {}".format(ctx.author.name))
@@ -112,38 +97,53 @@ async def pingmepls(ctx):
 
 @bot.command()
 async def membercount(ctx):
-    current_id = ctx.message.guild.id
-    for server in all_servers:
-        if server.guild.id == current_id:
-            name = ctx.message.guild.name
-            count = ctx.message.guild.member_count
-            await ctx.send("**{}** currently has **{}** members".format(name, count))
+    await ctx.send(
+        "**{}** currently has **{}** members!".format(ctx.message.guild.name, ctx.message.guild.member_count))
 
 
 @bot.command()
-async def greeting(ctx):
-    word = randchoice(("Hello!", "How's your day?", "Hi!", "How are you?", "Greetings!", "Hi, I have a cat!"))
-    await ctx.send(word)
-
-
-# need to add check for if member
-@bot.command()
-async def boop(ctx, victims: commands.Greedy[discord.Member], times=3):
+async def boop(ctx, victims: commands.Greedy[discord.Member], *, times="3"):
+    times = times.split()
+    if times[0] == "me":
+        victims = [ctx.author]
+        times = times[1:]
+        if not len(times):
+            times.append("3")
+    try:
+        int(times[0])
+    except ValueError:
+        await ctx.send("You can't ***BOOP*** '{}'. Be better.".format(*times))
+        return
     msg = ""
     for victim in victims:
-        msg+=victim.mention + " "
-    msg = "***BOOP*** " + msg * times
+        msg += victim.mention + " "
+    msg = "***BOOP*** " + msg * int(times[0])
     if len(msg) > 2000:
         await ctx.send("Message over 2000 characters")
     else:
         await ctx.send(msg)
 
+
 @bot.command()
-async def github(ctx):
-    await ctx.send("https://github.com/Blackgaurd/AlphaBot/")
+async def annoy(ctx, victims: commands.Greedy[discord.Member], *, times="5"):
+    try:
+        int(times)
+    except ValueError:
+        await ctx.send("'{}' is immune to being annoyed.".format(times))
+        return
+    if int(times)>30:
+        await ctx.send("I may be a robot, but at least I have more empathy than {}!".format(ctx.author.mention))
+    else:
+        victims = victims[0]
+        await ctx.send("I am just a robot, blame {}.".format(ctx.author.mention))
+        for i in range(1, int(times)+1):
+            await ctx.send("Currently annoying: {}, {}/{}".format(victims.mention, i, int(times)))
+        await ctx.send("Sorry {}!".format(victims.nick))
+
 
 
 # commands using client
+# nothing here because bot > client
 
 with open("BotToken.txt", "r") as token:
     bot.run(token.read().strip())
