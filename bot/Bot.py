@@ -138,6 +138,10 @@ async def boop(ctx, victims: commands.Greedy[discord.Member], times=3):
     else:
         await ctx.send(msg)
 
+@bot.command()
+async def github(ctx):
+    await ctx.send("https://github.com/Blackgaurd/AlphaBot/")
+
 
 # commands using client
 
