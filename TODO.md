@@ -1,8 +1,7 @@
 # Things that need to be done
 
 ## Priority
-* complete biblebooks.json
-(https://www.aresearchguide.com/bibleabb.html, not all books are included because not all books on this website are in the NIV version)
+* reformat all strings in Bot.py from using .format() to f"" strings (it looks cleaner)
 
 
 ## Others
