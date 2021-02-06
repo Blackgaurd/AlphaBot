@@ -20,6 +20,11 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=in
 client = discord.Client()
 all_servers = bot.get_all_members()
 
+color = discord.Color.from_rgb(255, 153, 153)
+
+with open("BibleBooks.json", "r") as f:
+    bible_books = json.load(f)
+
 
 # events
 @bot.event
@@ -42,14 +47,14 @@ async def on_member_remove(member):
 # commands using bot
 @bot.command()
 async def help(ctx, area="commands"):
-    color = discord.Color.from_rgb(255, 153, 153)
     embed_block = discord.Embed(title="Alpha Bot", description="Some of alpha-bots less useless commands", color=color)
     if area not in ("commands", "events"):
         area = "commands"
     with open("EventsAndCommands.json", "r") as f:
-        commands_events = json.load(f)
-    for command in commands_events[area]:
-        embed_block.add_field(name="`"+str(command["name"])+"`", value=str(command["description"]), inline=False)
+        data = json.load(f)
+    for command in data[area]:
+        embed_block.add_field(name="`" + str(command) + "`", value=str(data[area][command]["description"]),
+                              inline=False)
     await ctx.channel.send(embed=embed_block)
 
 
@@ -57,8 +62,13 @@ async def help(ctx, area="commands"):
 async def random(ctx, arg1="", *args):
     if arg1:
         if arg1 in ("number", "num", "integer", "int"):
+            if args[1]<args[0]:
+                args = (args[1], args[0])
             num = randint(int(args[0]), int(args[1])) if args else randint(-1000, 1000)
             await ctx.send(str(num))
+        elif arg1 in ("choice", "yesno", "pick"):
+            choice = randchoice(("Yes :white_check_mark:", "No :x:"))
+            await ctx.send(choice)
         else:
             try:
                 html = urlopen("https://en.wikipedia.org/wiki/" + arg1)
@@ -71,6 +81,19 @@ async def random(ctx, arg1="", *args):
 
     else:
         await ctx.send("Command not recognized")
+
+
+@bot.command()
+async def dice(ctx, sides=6):
+    if sides < 0:
+        await ctx.send(f"You cant have a {sides} sided die. Stop trying to enter the 4th dimension!")
+        return
+    elif sides == 0:
+        nick = ctx.author.nick if ctx.author.nick else ctx.author.name
+        await ctx.send(f"Use your brain {nick}, how is that even possible?")
+        return
+    num = randint(1, sides)
+    await ctx.send(":game_die: " + str(num) + " :game_die:")
 
 
 @bot.command()
@@ -97,7 +120,8 @@ async def pingmepls(ctx):
 
 @bot.command()
 async def membercount(ctx):
-    await ctx.send("**{}** currently has **{}** members!".format(ctx.message.guild.name, ctx.message.guild.member_count))
+    await ctx.send(
+        "**{}** currently has **{}** members!".format(ctx.message.guild.name, ctx.message.guild.member_count))
 
 
 @bot.command()
@@ -115,7 +139,7 @@ async def boop(ctx, victims: commands.Greedy[discord.Member], *, times="3"):
         return
     msg = ""
     for victim in victims:
-        msg+=victim.mention + " "
+        msg += victim.mention + " "
     msg = "***BOOP*** " + msg * int(times[0])
     if len(msg) > 2000:
         await ctx.send("Message over 2000 characters")
@@ -124,12 +148,29 @@ async def boop(ctx, victims: commands.Greedy[discord.Member], *, times="3"):
 
 
 @bot.command()
+async def annoy(ctx, victims: commands.Greedy[discord.Member], *, times="3"):
+    try:
+        int(times)
+    except ValueError:
+        await ctx.send("'{}' is immune to being annoyed.".format(times))
+        return
+    if int(times) > 30:
+        await ctx.send("I may be a robot, but at least I have more empathy than {}!".format(ctx.author.mention))
+    else:
+        victims = victims[0]
+        await ctx.send("I am just a robot, blame {}.".format(ctx.author.mention))
+        for i in range(1, int(times) + 1):
+            await ctx.send("Currently annoying: {}, {}/{}".format(victims.mention, i, int(times)))
+        await ctx.send("Sorry {}!".format(victims.nick))
+
+
+@bot.command()
 async def bible(ctx, *args):
     if args:
         query = "".join(args).replace(" ", "").split(":")
         chapter = ""
         while query[0] and query[0][-1].isdigit():
-            chapter = query[0][-1]+chapter
+            chapter = query[0][-1] + chapter
             query[0] = query[0][:-1]
 
         url = f"https://www.biblegateway.com/passage/?search={query[0]}+{chapter}%3A+{query[1]}&version=NIV"
