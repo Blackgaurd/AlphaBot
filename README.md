@@ -12,7 +12,4 @@ Current *useful* commands:
 * ,annoy: annoys people, a spam bot
 * ,face [number] sends a number of random face emojis
 
-## Contributions
-Shout-out to everyone that has helped me with this project!!
 
-Want to contribute? Message me on discord @abcdef#9403
