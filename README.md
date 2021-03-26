@@ -1,6 +1,6 @@
 # AlphaBot
 
-Welcome to alpha-bot, made using discord.py, for some of our smaller servers.
+Just messing around with discord.py API
 
 ## Functionalities
 Current *useful* commands:
