@@ -10,6 +10,7 @@ Current *useful* commands:
 * ,membercount: returns server name and number of members
 * ,boop: boops people
 * ,annoy: annoys people, a spam bot
+* ,face [number] sends a number of random face emojis
 
 ## Contributions
 Shout-out to everyone that has helped me with this project!!
