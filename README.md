@@ -17,7 +17,7 @@ How to use the discord.py API explained (quickly)
 
 To add a command, do
 ```
-@bot.command()
+@bot.command(ctx, arguments)
 async def command_name():
     do stuff
 ```
