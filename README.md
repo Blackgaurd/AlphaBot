@@ -12,4 +12,22 @@ Current *useful* commands:
 * ,annoy: annoys people, a spam bot
 * ,face [number] sends a number of random face emojis
 
+## Crash Cource
+How to use the discord.py API explained (quickly)
+
+To add a command, do
+```
+@bot.command()
+async def command_name():
+    do stuff
+```
+
+To send strings to the server, use
+```
+await ctx.send("string")
+```
+
+For help on embeded messages, files, or bot events, please feel free to contact us on discord **banana123#9403** or **Dablone
+                                                                                                                      #1880**
+
 
