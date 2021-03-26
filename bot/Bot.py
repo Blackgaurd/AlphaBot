@@ -190,6 +190,34 @@ async def bible(ctx, *args):
 
     else:
         await ctx.send("Please enter a query: `<book>` `<chapter>`: `<verse start>` - `<verse end>`")
+        
+        
+emoji_prefixes = ("person", "woman", "man")
+emoji_types = (
+    "bowing", "tipping_hand", "gesturing_no", "gesturing_ok", "raising_hand", "facepalming", "shrugging", "pouting",
+    "frowning", "getting_haircut", "getting_massage", "in_steamy_room")
+emoji_suffixes = ("", "_tone1", "_tone2", "_tone3", "_tone4", "_tone5")
+
+
+@bot.command()
+async def face(ctx, num="1"):
+    try:
+        if int(num) > 10:
+            await ctx.send("Too many faces, do you have a fetish?")
+            return
+        elif int(num) <= 0:
+            await ctx.send(f"I can't send {num} faces.")
+            return
+
+        message = ""
+        for i in range(int(num)):
+            pre_ = randchoice(emoji_prefixes)
+            type_ = randchoice(emoji_types)
+            suf_ = randchoice(emoji_suffixes)
+            message += f":{pre_}_{type_}{suf_}:"
+        await ctx.send(message)
+    except ValueError:
+        await ctx.send("Thats not a whole number ..")
 
 
 # commands using client
